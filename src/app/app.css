@@ -10,6 +10,9 @@
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
+  position: sticky;
+  top: 0;
+  z-index: 10;
   padding: 1rem 1.5rem;
   border-bottom: 1px solid var(--surface-border);
   background: rgba(2, 6, 23, 0.88);

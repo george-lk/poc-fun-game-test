@@ -3,6 +3,7 @@ import { provideRouter, Router } from '@angular/router';
 import { vi } from 'vitest';
 import { App } from './app';
 import { routes } from './app.routes';
+import { CURTAIN_DURATION_MS } from './page-transition.service';
 
 describe('App', () => {
   beforeEach(async () => {
@@ -10,6 +11,10 @@ describe('App', () => {
       imports: [App],
       providers: [provideRouter(routes)],
     }).compileComponents();
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
   });
 
   it('should create the app', () => {
@@ -28,19 +33,20 @@ describe('App', () => {
     fixture.detectChanges();
 
     let compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.loading-backdrop')).toBeTruthy();
+    expect(compiled.querySelector('.page-transition')).toBeTruthy();
 
     await vi.advanceTimersByTimeAsync(4999);
     fixture.detectChanges();
     compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.loading-backdrop')).toBeTruthy();
+    expect(compiled.querySelector('.page-transition')).toBeTruthy();
 
     await vi.advanceTimersByTimeAsync(1);
+    await vi.advanceTimersByTimeAsync(CURTAIN_DURATION_MS);
     fixture.detectChanges();
     compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.loading-backdrop')).toBeNull();
-
-    vi.useRealTimers();
+    const transition = compiled.querySelector('.page-transition');
+    expect(transition).toBeTruthy();
+    expect(transition?.classList.contains('page-transition--hidden')).toBe(true);
   });
 
   it('should render the home page content after loading completes', async () => {
@@ -68,8 +74,6 @@ describe('App', () => {
     expect(compiled.textContent).toContain('Featured games');
     expect(compiled.textContent).toContain('Eat apples, grow longer, and avoid crashing into yourself.');
     expect(compiled.textContent).toContain('Arcade defense is coming soon with waves, scoring, and ship controls.');
-
-    vi.useRealTimers();
   });
 
   it('should render the tic tac toe page from navigation after loading completes', async () => {
@@ -93,8 +97,6 @@ describe('App', () => {
     expect(navLinks).toContain('Space Invader');
     expect(compiled.querySelector('h1')?.textContent).toContain('Tic Tac Toe');
     expect(compiled.textContent).toContain('Current player: X');
-
-    vi.useRealTimers();
   });
 
   it('should render the snake game page from navigation after loading completes', async () => {
@@ -119,8 +121,6 @@ describe('App', () => {
     expect(compiled.querySelector('h1')?.textContent).toContain('Snake Game');
     expect(compiled.textContent).toContain('Score');
     expect(compiled.querySelectorAll('.board-cell')).toHaveLength(144);
-
-    vi.useRealTimers();
   });
 
   it('should render the space invader page from navigation after loading completes', async () => {
@@ -146,7 +146,50 @@ describe('App', () => {
     expect(compiled.textContent).toContain('Defend the lane, clear the fleet, and survive three hits');
     expect(compiled.querySelectorAll('.enemy')).toHaveLength(32);
     expect(compiled.querySelector('.player-ship')).toBeTruthy();
+  });
 
-    vi.useRealTimers();
+  it('should wait for the curtains to close before navigating from a clicked link', async () => {
+    vi.useFakeTimers();
+
+    const fixture = TestBed.createComponent(App);
+    const router = TestBed.inject(Router);
+
+    await router.navigateByUrl('/');
+    await vi.advanceTimersByTimeAsync(5000 + CURTAIN_DURATION_MS);
+    fixture.detectChanges();
+
+    const compiled = fixture.nativeElement as HTMLElement;
+    const transition = compiled.querySelector('.page-transition');
+    const ticTacToeLink = Array.from(compiled.querySelectorAll('nav a')).find(
+      (link) => link.textContent?.trim() === 'Tic Tac Toe',
+    ) as HTMLAnchorElement | undefined;
+
+    expect(transition).toBeTruthy();
+    expect(transition?.classList.contains('page-transition--hidden')).toBe(true);
+    expect(ticTacToeLink).toBeTruthy();
+
+    ticTacToeLink?.click();
+    fixture.detectChanges();
+
+    expect(router.url).toBe('/');
+    expect(transition?.classList.contains('page-transition--hidden')).toBe(false);
+    expect(transition?.classList.contains('page-transition--closing')).toBe(true);
+
+    await vi.advanceTimersByTimeAsync(CURTAIN_DURATION_MS - 1);
+    fixture.detectChanges();
+    expect(router.url).toBe('/');
+
+    await vi.advanceTimersByTimeAsync(1);
+    fixture.detectChanges();
+    expect(router.url).toBe('/tic-tac-toe');
+    expect(fixture.nativeElement.querySelector('.page-transition--closed')).toBeTruthy();
+
+    await vi.advanceTimersByTimeAsync(5000);
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('.page-transition--opening')).toBeTruthy();
+
+    await vi.advanceTimersByTimeAsync(CURTAIN_DURATION_MS);
+    fixture.detectChanges();
+    expect(transition?.classList.contains('page-transition--hidden')).toBe(true);
   });
 });

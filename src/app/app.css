@@ -46,7 +46,59 @@ nav a:hover {
   padding: 1.5rem;
 }
 
-app-loading-modal {
+.page-transition {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  display: grid;
+  place-items: center;
+  padding: 1.5rem;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at top, rgba(96, 165, 250, 0.28), transparent 35%),
+    rgba(15, 23, 42, 0.82);
+  backdrop-filter: blur(10px);
+}
+
+.page-transition--hidden {
+  visibility: hidden;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.page-transition__curtain {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  background:
+    linear-gradient(180deg, rgba(15, 23, 42, 0.98), rgba(30, 41, 59, 0.95)),
+    linear-gradient(90deg, rgba(59, 130, 246, 0.18), transparent);
+  box-shadow: 0 0 40px rgba(15, 23, 42, 0.35);
+  transition: transform 450ms ease-in-out;
+}
+
+.page-transition__curtain--left {
+  left: 0;
+  transform: translateX(-102%);
+}
+
+.page-transition__curtain--right {
+  right: 0;
+  transform: translateX(102%);
+}
+
+.page-transition--closing .page-transition__curtain--left,
+.page-transition--closed .page-transition__curtain--left {
+  transform: translateX(0);
+}
+
+.page-transition--closing .page-transition__curtain--right,
+.page-transition--closed .page-transition__curtain--right {
+  transform: translateX(0);
+}
+
+.page-transition app-loading-modal {
   position: relative;
-  z-index: 20;
+  z-index: 1;
 }

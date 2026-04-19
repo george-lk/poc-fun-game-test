@@ -1,5 +1,11 @@
 @if (visible()) {
-  <div class="loading-backdrop" role="status" aria-live="polite" aria-label="Loading page">
+  <div
+    class="loading-backdrop"
+    [class.loading-backdrop--inline]="!withBackdrop()"
+    role="status"
+    aria-live="polite"
+    aria-label="Loading page"
+  >
     <div class="loading-card">
       <div class="glow-ring"></div>
 

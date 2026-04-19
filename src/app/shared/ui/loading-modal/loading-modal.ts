@@ -8,4 +8,5 @@ import { Component, input } from '@angular/core';
 })
 export class LoadingModal {
   readonly visible = input(false);
+  readonly withBackdrop = input(true);
 }

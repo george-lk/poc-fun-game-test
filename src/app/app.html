@@ -3,26 +3,38 @@
 
   <nav aria-label="Main navigation">
     <a
+      appPageTransitionLink="/"
       routerLink="/"
       routerLinkActive="active"
       [routerLinkActiveOptions]="{ exact: true }"
     >
       Home
     </a>
-    <a routerLink="/tic-tac-toe" routerLinkActive="active">
+    <a appPageTransitionLink="/tic-tac-toe" routerLink="/tic-tac-toe" routerLinkActive="active">
       Tic Tac Toe
     </a>
-    <a routerLink="/snake-game" routerLinkActive="active">
+    <a appPageTransitionLink="/snake-game" routerLink="/snake-game" routerLinkActive="active">
       Snake Game
     </a>
-    <a routerLink="/space-invader" routerLinkActive="active">
+    <a appPageTransitionLink="/space-invader" routerLink="/space-invader" routerLinkActive="active">
       Space Invader
     </a>
   </nav>
 </header>
 
-<main class="app-shell">
+<main class="app-shell" [attr.aria-busy]="isTransitionVisible() ? 'true' : null">
   <router-outlet />
 </main>
 
-<app-loading-modal [visible]="isLoading()" />
+<div
+  class="page-transition"
+  [class.page-transition--hidden]="curtainPhase() === 'hidden'"
+  [class.page-transition--closing]="curtainPhase() === 'closing'"
+  [class.page-transition--closed]="curtainPhase() === 'closed'"
+  [class.page-transition--opening]="curtainPhase() === 'opening'"
+  [attr.aria-hidden]="curtainPhase() === 'hidden' ? 'true' : null"
+>
+  <div class="page-transition__curtain page-transition__curtain--left" aria-hidden="true"></div>
+  <div class="page-transition__curtain page-transition__curtain--right" aria-hidden="true"></div>
+  <app-loading-modal [visible]="isLoading()" [withBackdrop]="false" />
+</div>

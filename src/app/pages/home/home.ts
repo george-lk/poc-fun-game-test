@@ -1,10 +1,11 @@
 import { DatePipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { PageTransitionLink } from '../../page-transition-link';
 
 @Component({
   selector: 'app-home',
-  imports: [DatePipe, RouterLink],
+  imports: [DatePipe, PageTransitionLink, RouterLink],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })

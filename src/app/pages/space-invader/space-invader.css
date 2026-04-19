@@ -1,0 +1,239 @@
+.space-invader-page {
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+.page-header {
+  margin-bottom: 1.5rem;
+}
+
+.eyebrow {
+  margin: 0 0 0.5rem;
+  color: var(--primary);
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0 0 0.75rem;
+  font-size: 2rem;
+}
+
+.summary,
+.status,
+.stat-card span,
+.tips-card li,
+.overlay p {
+  margin: 0;
+  color: var(--text-secondary);
+}
+
+.game-layout {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: minmax(0, 760px) minmax(240px, 320px);
+  align-items: start;
+}
+
+.game-card,
+.tips-card {
+  display: grid;
+  gap: 1rem;
+  padding: 1.25rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--surface-border);
+  background: linear-gradient(180deg, var(--surface-2), var(--surface-1));
+  box-shadow: var(--shadow-strong);
+}
+
+.status {
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.stat-card {
+  display: grid;
+  gap: 0.3rem;
+  padding: 0.9rem 1rem;
+  border-radius: 0.75rem;
+  background: rgba(15, 23, 42, 0.88);
+  border: 1px solid rgba(96, 165, 250, 0.12);
+}
+
+.stat-card strong {
+  font-size: 1.4rem;
+}
+
+.controls-card {
+  display: grid;
+  gap: 0.75rem;
+  padding: 0.9rem 1rem;
+  border-radius: 0.75rem;
+  background: rgba(15, 23, 42, 0.72);
+  border: 1px solid rgba(96, 165, 250, 0.12);
+}
+
+.control-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  font-weight: 600;
+}
+
+kbd {
+  padding: 0.3rem 0.55rem;
+  border-radius: 0.5rem;
+  border: 1px solid rgba(148, 163, 184, 0.32);
+  background: rgba(2, 6, 23, 0.95);
+  color: var(--text-primary);
+  font: inherit;
+}
+
+.arena-frame {
+  overflow-x: auto;
+  padding-bottom: 0.2rem;
+}
+
+.arena {
+  position: relative;
+  overflow: hidden;
+  border-radius: 1rem;
+  background:
+    radial-gradient(circle at top, rgba(59, 130, 246, 0.16), transparent 40%),
+    linear-gradient(180deg, #020617 0%, #081028 50%, #111827 100%);
+  border: 1px solid rgba(96, 165, 250, 0.2);
+  box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.35);
+}
+
+.arena::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 56px;
+  border-top: 1px dashed rgba(148, 163, 184, 0.25);
+}
+
+.sprite {
+  position: absolute;
+}
+
+.player-ship {
+  border-radius: 0.85rem 0.85rem 0.3rem 0.3rem;
+  background:
+    linear-gradient(180deg, rgba(191, 219, 254, 0.95), rgba(14, 165, 233, 0.9)),
+    linear-gradient(90deg, #2563eb, #38bdf8);
+  box-shadow:
+    0 0 16px rgba(56, 189, 248, 0.42),
+    inset 0 -4px 0 rgba(15, 23, 42, 0.22);
+}
+
+.player-ship::before {
+  content: '';
+  position: absolute;
+  inset: auto 22px 100%;
+  width: 12px;
+  height: 14px;
+  border-radius: 999px 999px 0 0;
+  background: rgba(224, 242, 254, 0.92);
+}
+
+.enemy {
+  border-radius: 0.7rem;
+  background:
+    linear-gradient(180deg, rgba(253, 224, 71, 0.96), rgba(249, 115, 22, 0.92)),
+    linear-gradient(90deg, #f97316, #facc15);
+  box-shadow:
+    0 0 12px rgba(251, 146, 60, 0.32),
+    inset 0 -4px 0 rgba(120, 53, 15, 0.28);
+}
+
+.enemy::before,
+.enemy::after {
+  content: '';
+  position: absolute;
+  top: 8px;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.88);
+}
+
+.enemy::before {
+  left: 10px;
+}
+
+.enemy::after {
+  right: 10px;
+}
+
+.bullet {
+  border-radius: 999px;
+}
+
+.bullet--player {
+  background: linear-gradient(180deg, #f8fafc, #60a5fa);
+  box-shadow: 0 0 10px rgba(191, 219, 254, 0.8);
+}
+
+.bullet--enemy {
+  background: linear-gradient(180deg, #fdba74, #ef4444);
+  box-shadow: 0 0 8px rgba(248, 113, 113, 0.7);
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  gap: 0.75rem;
+  padding: 1.5rem;
+  text-align: center;
+  background: rgba(2, 6, 23, 0.76);
+  backdrop-filter: blur(2px);
+}
+
+.overlay h2,
+.tips-card h2 {
+  margin: 0;
+}
+
+.overlay h2 {
+  font-size: 1.7rem;
+}
+
+.tips-card {
+  gap: 0.9rem;
+}
+
+.tips-card h2 {
+  font-size: 1.1rem;
+}
+
+.tips-card ul {
+  margin: 0;
+  padding-left: 1.1rem;
+}
+
+.tips-card li + li {
+  margin-top: 0.75rem;
+}
+
+@media (max-width: 980px) {
+  .game-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .stats {
+    grid-template-columns: 1fr;
+  }
+}

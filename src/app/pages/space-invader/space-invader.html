@@ -1,0 +1,116 @@
+<section class="space-invader-page">
+  <header class="page-header">
+    <p class="eyebrow">Games</p>
+    <h1>Space Invader</h1>
+    <p class="summary">Defend the lane, clear the fleet, and survive three hits in this keyboard-first arcade run.</p>
+  </header>
+
+  <div class="game-layout">
+    <section class="game-card" aria-labelledby="space-invader-status">
+      <div class="stats">
+        <article class="stat-card">
+          <span>Score</span>
+          <strong>{{ score() }}</strong>
+        </article>
+
+        <article class="stat-card">
+          <span>Lives</span>
+          <strong>{{ lives() }}</strong>
+        </article>
+
+        <article class="stat-card">
+          <span>Fleet</span>
+          <strong>{{ remainingEnemies() }}</strong>
+        </article>
+      </div>
+
+      <p id="space-invader-status" class="status" aria-live="polite">
+        {{ statusMessage() }}
+      </p>
+
+      <div class="controls-card" aria-label="Keyboard controls">
+        <div class="control-row">
+          <span>Move</span>
+          <kbd>←</kbd>
+          <kbd>→</kbd>
+          <span>or</span>
+          <kbd>A</kbd>
+          <kbd>D</kbd>
+        </div>
+
+        <div class="control-row">
+          <span>Fire</span>
+          <kbd>Space</kbd>
+          <span>Pause</span>
+          <kbd>P</kbd>
+          <span>Restart</span>
+          <kbd>R</kbd>
+        </div>
+      </div>
+
+      <div class="arena-frame">
+        <div
+          class="arena"
+          role="application"
+          aria-label="Space Invader game arena"
+          [style.width.px]="stageWidth"
+          [style.height.px]="stageHeight"
+        >
+          @for (enemy of enemies(); track enemy.id) {
+            <div
+              class="sprite enemy"
+              [style.left.px]="enemy.x"
+              [style.top.px]="enemy.y"
+              [style.width.px]="enemy.width"
+              [style.height.px]="enemy.height"
+            ></div>
+          }
+
+          @for (bullet of playerBullets(); track bullet.id) {
+            <div
+              class="sprite bullet bullet--player"
+              [style.left.px]="bullet.x"
+              [style.top.px]="bullet.y"
+              [style.width.px]="bullet.width"
+              [style.height.px]="bullet.height"
+            ></div>
+          }
+
+          @for (bullet of enemyBullets(); track bullet.id) {
+            <div
+              class="sprite bullet bullet--enemy"
+              [style.left.px]="bullet.x"
+              [style.top.px]="bullet.y"
+              [style.width.px]="bullet.width"
+              [style.height.px]="bullet.height"
+            ></div>
+          }
+
+          <div
+            class="sprite player-ship"
+            [style.left.px]="playerX()"
+            [style.top.px]="playerY"
+            [style.width.px]="playerWidth"
+            [style.height.px]="playerHeight"
+          ></div>
+
+          @if (isPaused() || isGameOver()) {
+            <div class="overlay">
+              <h2>{{ overlayTitle() }}</h2>
+              <p>{{ statusMessage() }}</p>
+            </div>
+          }
+        </div>
+      </div>
+    </section>
+
+    <aside class="tips-card">
+      <h2>Mission brief</h2>
+      <ul>
+        <li>Clear every invader to win the wave.</li>
+        <li>Enemy shots cost one life, and you only get three.</li>
+        <li>If the fleet reaches your lane, the run ends immediately.</li>
+      </ul>
+    </aside>
+  </div>
+</section>

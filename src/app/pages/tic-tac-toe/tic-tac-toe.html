@@ -1,0 +1,32 @@
+<section class="tic-tac-toe-page">
+  <header class="page-header">
+    <p class="eyebrow">Games</p>
+    <h1>Tic Tac Toe</h1>
+    <p class="summary">Play a local two-player game on the same device.</p>
+  </header>
+
+  <section class="game-card" aria-labelledby="tic-tac-toe-status">
+    <p id="tic-tac-toe-status" class="status" aria-live="polite">
+      {{ statusMessage() }}
+    </p>
+
+    <div class="board" role="grid" aria-label="Tic Tac Toe board">
+      @for (cell of board(); track $index) {
+        <button
+          type="button"
+          class="cell"
+          role="gridcell"
+          [disabled]="cell !== null || isGameOver()"
+          [attr.aria-label]="'Cell ' + ($index + 1) + ': ' + (cell ?? 'empty')"
+          (click)="playTurn($index)"
+        >
+          {{ cell }}
+        </button>
+      }
+    </div>
+
+    <button type="button" class="reset-button" (click)="resetGame()">
+      New Game
+    </button>
+  </section>
+</section>

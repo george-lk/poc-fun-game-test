@@ -1,7 +1,28 @@
-<main class="main">
-  <div>
-    <div>This is a test page</div>
-  </div>
+<header class="top-nav">
+  <div class="brand">Fun Game Test</div>
+
+  <nav aria-label="Main navigation">
+    <a
+      routerLink="/"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+    >
+      Home
+    </a>
+    <a routerLink="/tic-tac-toe" routerLinkActive="active">
+      Tic Tac Toe
+    </a>
+    <a routerLink="/snake-game" routerLinkActive="active">
+      Snake Game
+    </a>
+    <a routerLink="/space-invader" routerLinkActive="active">
+      Space Invader
+    </a>
+  </nav>
+</header>
+
+<main class="app-shell">
+  <router-outlet />
 </main>
 
-<router-outlet />
+<app-loading-modal [visible]="isLoading()" />

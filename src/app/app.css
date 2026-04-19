@@ -1,0 +1,49 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  color: inherit;
+  font-family: inherit;
+}
+
+.top-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--surface-border);
+  background: rgba(2, 6, 23, 0.88);
+  color: var(--text-primary);
+  backdrop-filter: blur(14px);
+}
+
+.brand {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+nav a {
+  display: inline-block;
+  padding: 0.5rem 0.9rem;
+  border-radius: 999px;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition:
+    background-color 160ms ease,
+    color 160ms ease;
+}
+
+nav a.active,
+nav a:hover {
+  background: var(--primary-soft);
+  color: var(--text-primary);
+}
+
+.app-shell {
+  padding: 1.5rem;
+}
+
+app-loading-modal {
+  position: relative;
+  z-index: 20;
+}
